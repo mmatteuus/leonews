@@ -1,5 +1,6 @@
 import { ExternalLink, Clock, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 interface NewsCardProps {
   id: string;
@@ -11,7 +12,8 @@ interface NewsCardProps {
   category?: string;
 }
 
-const NewsCard = ({ title, summary, url, source, publishedAt, category }: NewsCardProps) => {
+const NewsCard = ({ id, title, summary, url, source, publishedAt, category }: NewsCardProps) => {
+  const navigate = useNavigate();
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -62,14 +64,12 @@ const NewsCard = ({ title, summary, url, source, publishedAt, category }: NewsCa
 
         {/* Title */}
         <h2 className="news-headline group-hover:text-primary transition-colors duration-200">
-          <a 
-            href={url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block hover:underline"
+          <button 
+            onClick={() => navigate(`/noticia/${id}`)}
+            className="block hover:underline text-left w-full"
           >
             {title}
-          </a>
+          </button>
         </h2>
 
         {/* Summary */}
