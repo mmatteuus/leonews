@@ -2,9 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
+const isNetlify = process.env.NETLIFY === "true";
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/leonews/",
+  base: isNetlify ? "/" : "/leonews/",
   server: {
     host: "::",
     port: 8080,
