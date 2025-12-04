@@ -25,6 +25,11 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      if (location.hostname.endsWith("github.io")) {
+        location.replace(`${location.origin}/leonews/docs/`);
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
