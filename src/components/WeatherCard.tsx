@@ -24,15 +24,24 @@ const WeatherCard = () => {
     load();
   }, []);
 
+  const renderIcon = () => {
+    if (data?.icon) {
+      // If icon is an URL, render image; if it's an emoji/text, render as text
+      const isUrl = data.icon.startsWith("http");
+      return isUrl ? (
+        <img src={data.icon} alt={data.description} className="h-12 w-12" />
+      ) : (
+        <div className="h-12 w-12 flex items-center justify-center text-3xl">
+          {data.icon}
+        </div>
+      );
+    }
+    return <CloudSun className="h-10 w-10 text-primary" />;
+  };
+
   return (
     <section className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-4 flex items-center gap-4 shadow-sm">
-      <div className="flex-shrink-0">
-        {data?.icon ? (
-          <img src={data.icon} alt={data.description} className="h-12 w-12" />
-        ) : (
-          <CloudSun className="h-10 w-10 text-primary" />
-        )}
-      </div>
+      <div className="flex-shrink-0">{renderIcon()}</div>
       <div className="flex-1">
         <p className="text-xs uppercase tracking-wide text-muted-foreground">
           Clima em Araguaína
