@@ -64,7 +64,9 @@ const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
                     size="sm"
                     className="text-sm font-medium hover:text-primary transition-transform duration-150 hover:-translate-y-0.5"
                   >
-                    {category.label}
+                    <span className="notranslate" translate="no">
+                      {category.label}
+                    </span>
                   </Button>
                 </Link>
               ))}
@@ -114,7 +116,9 @@ const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
                     size="sm"
                     className="justify-start text-sm font-medium w-full"
                   >
-                    {category.label}
+                    <span className="notranslate" translate="no">
+                      {category.label}
+                    </span>
                   </Button>
                 </Link>
               ))}

@@ -131,7 +131,8 @@ const Index = () => {
 
         <section
           id="contato"
-          className="mt-16 mb-24 max-w-2xl mx-auto w-full"
+          className="mt-16 mb-24 max-w-2xl mx-auto w-full notranslate"
+          translate="no"
         >
           <h2 className="text-2xl font-bold mb-4">Envie uma notícia</h2>
           <p className="text-sm text-muted-foreground mb-6">

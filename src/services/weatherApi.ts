@@ -5,6 +5,15 @@ export interface WeatherData {
   feelsLike: number;
   description: string;
   icon: string;
+  daily: DailyForecast[];
+}
+
+export interface DailyForecast {
+  date: string;
+  min: number;
+  max: number;
+  description: string;
+  icon: string;
 }
 
 const weatherCodeMap: Record<number, { description: string; icon: string }> = {
@@ -25,14 +34,19 @@ const weatherCodeMap: Record<number, { description: string; icon: string }> = {
   82: { description: "Aguaceiros fortes", icon: "⛈️" },
 };
 
+const mapWeatherCode = (code: number) =>
+  weatherCodeMap[code] || { description: "Tempo estável", icon: "🌤️" };
+
 export async function fetchAraguainaWeather(): Promise<WeatherData> {
   // Coordenadas de Araguaína, TO
   const params = new URLSearchParams({
     latitude: "-7.192",
     longitude: "-48.204",
     current: "temperature_2m,apparent_temperature,weather_code",
+    daily:
+      "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min",
     timezone: "America/Araguaina",
-    forecast_days: "1",
+    forecast_days: "5",
   });
 
   const res = await fetch(`${OPEN_METEO_URL}?${params.toString()}`);
@@ -41,15 +55,31 @@ export async function fetchAraguainaWeather(): Promise<WeatherData> {
   const data = await res.json();
   const current = data.current || {};
   const code = Number(current.weather_code ?? 0);
-  const mapped = weatherCodeMap[code] || {
-    description: "Tempo estável",
-    icon: "🌤️",
-  };
+  const mapped = mapWeatherCode(code);
+
+  const daily: DailyForecast[] = [];
+  const days = data.daily || {};
+  const dates: string[] = days.time || [];
+  const maxTemps: number[] = days.temperature_2m_max || [];
+  const minTemps: number[] = days.temperature_2m_min || [];
+  const codes: number[] = days.weather_code || [];
+
+  for (let i = 0; i < dates.length; i++) {
+    const weatherInfo = mapWeatherCode(Number(codes[i] ?? 0));
+    daily.push({
+      date: dates[i],
+      min: Math.round(minTemps[i] ?? 0),
+      max: Math.round(maxTemps[i] ?? 0),
+      description: weatherInfo.description,
+      icon: weatherInfo.icon,
+    });
+  }
 
   return {
     temp: current.temperature_2m ?? 0,
     feelsLike: current.apparent_temperature ?? current.temperature_2m ?? 0,
     description: mapped.description,
     icon: mapped.icon,
+    daily,
   };
 }

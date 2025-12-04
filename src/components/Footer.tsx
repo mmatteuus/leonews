@@ -61,7 +61,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-white/20 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm opacity-75">
-            <p>&copy; 2024 LeoNews. Todos os direitos reservados.</p>
+            <p>&copy; 2025 LeoNews. Todos os direitos reservados.</p>
             <p className="mt-2 md:mt-0">
               Desenvolvido por <span className="font-semibold text-secondary">MtsFerreira</span> • 
               WhatsApp: <a href="https://wa.me/5563992476987" className="hover:text-secondary">(63) 99247-6987</a>
