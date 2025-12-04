@@ -14,12 +14,9 @@ Portal de notícias de Araguaína feito com Vite + React + TypeScript + Tailwind
 - `.github/workflows/` — pipelines (GitHub Pages via Actions)
 - `netlify.toml` — config de deploy no Netlify
 
-## Scripts
-- `npm install` — instala dependências
-- `npm run dev` — ambiente de desenvolvimento
-- `npm run build` — build de produção
-- `npm run preview` — pré-visualizar o build
-
-## Deploy
-- GitHub Pages: usar Actions (`.github/workflows/vite-gh-pages.yml`), `base` configurado para `/leonews/`.
-- Netlify: build `npm run build`, publish `dist/` e variável `NETLIFY=true` para `base` raiz.
+## Sobre a aplicação
+- Portal de notícias local para Araguaína, com categorias (política, cotidiano, cultura, esportes, economia, saúde).
+- Integração de notícias em `services/newsApi` com fallback local para manter a grade sempre populada.
+- Previsão do tempo com resumo atual e previsão de 5 dias em `components/WeatherCard` / `services/weatherApi`.
+- Detalhe de notícia com resumo automático local, tags e layout responsivo.
+- Tema claro/escuro com persistência, botão de voltar ao topo e favicon em SVG (emoji de jornal).
