@@ -5,6 +5,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import NewsCard from "@/components/NewsCard";
+import WeatherCard from "@/components/WeatherCard";
 import Footer from "@/components/Footer";
 import { useNews } from "@/hooks/useNews";
 
@@ -14,12 +15,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header 
-        searchQuery={searchQuery} 
-        onSearchChange={setSearchQuery} 
-      />
-      
+      <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+
       <HeroSection />
+
+      <section className="container mx-auto px-4 mt-6">
+        <WeatherCard />
+      </section>
 
       <main className="container mx-auto px-4 py-12">
         {/* Search Results Header */}
@@ -29,7 +31,10 @@ const Index = () => {
               Resultados para "{searchQuery}"
             </h2>
             <p className="text-muted-foreground">
-              {articles.length} {articles.length === 1 ? 'notícia encontrada' : 'notícias encontradas'}
+              {articles.length}{" "}
+              {articles.length === 1
+                ? "notícia encontrada"
+                : "notícias encontradas"}
             </p>
           </div>
         )}
@@ -43,14 +48,16 @@ const Index = () => {
                 Acompanhe as principais notícias de Araguaína em tempo real
               </p>
             </div>
-            <Button 
+            <Button
               onClick={refetch}
               disabled={loading}
               variant="outline"
               size="sm"
-              className="shrink-0"
+              className="shrink-0 transition-transform duration-150 hover:-translate-y-0.5"
             >
-              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw
+                className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`}
+              />
               Atualizar
             </Button>
           </div>
@@ -60,9 +67,7 @@ const Index = () => {
         {error && (
           <Alert variant="destructive" className="mb-8">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              {error}
-            </AlertDescription>
+            <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
 
@@ -101,18 +106,20 @@ const Index = () => {
             ) : (
               <div className="text-center py-12">
                 <h3 className="text-xl font-semibold mb-2">
-                  {searchQuery ? 'Nenhuma notícia encontrada' : 'Nenhuma notícia disponível'}
+                  {searchQuery
+                    ? "Nenhuma notícia encontrada"
+                    : "Nenhuma notícia disponível"}
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  {searchQuery 
-                    ? 'Tente buscar por outros termos ou verifique a ortografia.' 
-                    : 'Aguarde enquanto carregamos as últimas notícias.'
-                  }
+                  {searchQuery
+                    ? "Tente buscar por outros termos ou verifique a ortografia."
+                    : "Aguarde enquanto carregamos as últimas notícias."}
                 </p>
                 {searchQuery && (
-                  <Button 
-                    onClick={() => setSearchQuery('')}
+                  <Button
+                    onClick={() => setSearchQuery("")}
                     variant="outline"
+                    className="transition-transform duration-150 hover:-translate-y-0.5"
                   >
                     Ver todas as notícias
                   </Button>
@@ -121,6 +128,70 @@ const Index = () => {
             )}
           </>
         )}
+
+        <section
+          id="contato"
+          className="mt-16 mb-24 max-w-2xl mx-auto w-full"
+        >
+          <h2 className="text-2xl font-bold mb-4">Envie uma notícia</h2>
+          <p className="text-sm text-muted-foreground mb-6">
+            Sugira uma pauta, envie um flagrante ou compartilhe um evento
+            importante de Araguaína.
+          </p>
+
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Formulário enviado (simulação sem backend).");
+            }}
+          >
+            <div>
+              <label className="text-sm font-medium block mb-1">Seu nome</label>
+              <input
+                type="text"
+                required
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium block mb-1">E-mail</label>
+              <input
+                type="email"
+                required
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium block mb-1">
+                Título da notícia
+              </label>
+              <input
+                type="text"
+                required
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium block mb-1">Descrição</label>
+              <textarea
+                required
+                rows={4}
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm resize-none"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-transform duration-150 hover:-translate-y-0.5"
+            >
+              Enviar sugestão
+            </button>
+          </form>
+        </section>
       </main>
 
       <Footer />

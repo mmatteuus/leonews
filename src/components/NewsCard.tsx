@@ -48,7 +48,7 @@ const NewsCard = ({ id, title, summary, url, source, publishedAt, category }: Ne
   };
 
   return (
-    <article className="news-card group">
+    <article className="news-card group transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer">
       <div className="flex flex-col h-full">
         {/* Category Badge */}
         <div className="flex items-center justify-between mb-3">

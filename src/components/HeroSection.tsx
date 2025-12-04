@@ -6,16 +6,16 @@ const HeroSection = () => {
   return (
     <section className="hero-section relative min-h-[60vh] flex items-center">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${araguainaHero})` }}
       />
-      
+
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/90" />
-      
+
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 animate-fade-in-up">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             LeoNews
@@ -24,10 +24,10 @@ const HeroSection = () => {
             O Portal de Notícias de Araguaína
           </p>
           <p className="text-base md:text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-            Acompanhe as principais notícias da cidade e região. 
-            Informação atualizada a cada hora, direto das melhores fontes locais.
+            Acompanhe as principais notícias da cidade e região. Informação
+            atualizada a cada hora, direto das melhores fontes locais.
           </p>
-          
+
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="text-center">
@@ -53,12 +53,12 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             variant="secondary"
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm"
+            className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm transition-transform duration-150 hover:-translate-y-0.5"
           >
-            Ver Últimas Notícias
+            Ver últimas Notícias
           </Button>
         </div>
       </div>

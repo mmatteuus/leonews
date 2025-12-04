@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Search, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ThemeToggle from "@/components/ThemeToggle";
 import leonewsLogo from "@/assets/leonews-favicon.png";
 
 interface HeaderProps {
@@ -14,23 +15,23 @@ const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
 
   const categories = [
     "Todas",
-    "Política", 
+    "Política",
     "Cotidiano",
     "Cultura",
     "Esportes",
     "Economia",
-    "Saúde"
+    "Saúde",
   ];
 
   return (
     <header className="header-sticky">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center h-16 gap-4">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <img 
-              src={leonewsLogo} 
-              alt="LeoNews" 
+            <img
+              src={leonewsLogo}
+              alt="LeoNews"
               className="h-10 w-10 rounded-lg"
             />
             <div>
@@ -42,7 +43,7 @@ const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
           </div>
 
           {/* Desktop Search */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
+          <div className="hidden md:flex flex-1 max-w-md mx-4">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -55,29 +56,37 @@ const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          <div className="flex items-center gap-3 ml-auto">
+            {/* Desktop Categories */}
+            <nav className="hidden lg:flex items-center space-x-1">
+              {categories.slice(0, 4).map((category) => (
+                <Button
+                  key={category}
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm font-medium hover:text-primary transition-transform duration-150 hover:-translate-y-0.5"
+                >
+                  {category}
+                </Button>
+              ))}
+            </nav>
 
-          {/* Desktop Categories */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {categories.slice(0, 4).map((category) => (
-              <Button
-                key={category}
-                variant="ghost"
-                size="sm"
-                className="text-sm font-medium hover:text-primary"
-              >
-                {category}
-              </Button>
-            ))}
-          </nav>
+            <ThemeToggle />
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
