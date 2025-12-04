@@ -1,6 +1,5 @@
-import { MessageCircle, Mail, Globe } from "lucide-react";
+import { MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import journalistIllustration from "@/assets/journalist-illustration.png";
 
 const Footer = () => {
   return (
@@ -15,15 +14,8 @@ const Footer = () => {
               Oferecemos cobertura local 24 horas por dia com informações 
               confiáveis e atualizadas.
             </p>
-            <div className="flex items-center space-x-2">
-              <img 
-                src={journalistIllustration} 
-                alt="Jornalismo profissional" 
-                className="h-12 w-16 object-cover rounded opacity-80"
-              />
-              <span className="text-xs opacity-75">
-                Jornalismo profissional para Araguaína
-              </span>
+            <div className="text-xs opacity-75">
+              Jornalismo profissional para Araguaína
             </div>
           </div>
 
@@ -59,15 +51,9 @@ const Footer = () => {
                 <span>contato@leonews.com.br</span>
               </div>
 
-              <a 
-                href="https://eurichardmark.lovable.app/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-sm hover:text-secondary transition-colors"
-              >
-                <Globe className="h-4 w-4" />
-                <span>Design by EuRichardMark</span>
-              </a>
+              <div className="flex items-center space-x-2 text-sm">
+                <span className="font-semibold">LeoNews</span>
+              </div>
             </div>
           </div>
         </div>

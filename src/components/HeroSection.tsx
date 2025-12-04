@@ -1,18 +1,13 @@
 import { Newspaper, MapPin, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import araguainaHero from "@/assets/araguaina-hero.jpg";
 
 const HeroSection = () => {
   return (
-    <section className="hero-section relative min-h-[60vh] flex items-center">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${araguainaHero})` }}
-      />
-
-      {/* Gradient Overlay */}
+    <section className="hero-section relative min-h-[60vh] flex items-center overflow-hidden">
+      {/* Decorative gradient shapes */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/90" />
+      <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+      <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-black/10 blur-3xl" />
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10 animate-fade-in-up">

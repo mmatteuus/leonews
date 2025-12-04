@@ -1,4 +1,4 @@
-const OPEN_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
+const OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast";
 
 export interface WeatherData {
   temp: number;
@@ -7,23 +7,49 @@ export interface WeatherData {
   icon: string;
 }
 
+const weatherCodeMap: Record<number, { description: string; icon: string }> = {
+  0: { description: "Céu limpo", icon: "☀️" },
+  1: { description: "Principalmente limpo", icon: "🌤️" },
+  2: { description: "Parcialmente nublado", icon: "⛅" },
+  3: { description: "Nublado", icon: "☁️" },
+  45: { description: "Nevoeiro", icon: "🌫️" },
+  48: { description: "Nevoeiro depositante", icon: "🌫️" },
+  51: { description: "Garoa fraca", icon: "🌦️" },
+  53: { description: "Garoa moderada", icon: "🌧️" },
+  55: { description: "Garoa densa", icon: "🌧️" },
+  61: { description: "Chuva fraca", icon: "🌧️" },
+  63: { description: "Chuva moderada", icon: "🌧️" },
+  65: { description: "Chuva forte", icon: "🌧️" },
+  80: { description: "Aguaceiros fracos", icon: "🌦️" },
+  81: { description: "Aguaceiros moderados", icon: "🌧️" },
+  82: { description: "Aguaceiros fortes", icon: "⛈️" },
+};
+
 export async function fetchAraguainaWeather(): Promise<WeatherData> {
+  // Coordenadas de Araguaína, TO
   const params = new URLSearchParams({
-    q: "Araguaina,BR",
-    units: "metric",
-    lang: "pt_br",
-    appid: import.meta.env.VITE_OPENWEATHER_KEY || "",
+    latitude: "-7.192",
+    longitude: "-48.204",
+    current: "temperature_2m,apparent_temperature,weather_code",
+    timezone: "America/Araguaina",
+    forecast_days: "1",
   });
 
-  const res = await fetch(`${OPEN_WEATHER_URL}?${params.toString()}`);
+  const res = await fetch(`${OPEN_METEO_URL}?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch weather");
 
   const data = await res.json();
+  const current = data.current || {};
+  const code = Number(current.weather_code ?? 0);
+  const mapped = weatherCodeMap[code] || {
+    description: "Tempo estável",
+    icon: "🌤️",
+  };
 
   return {
-    temp: data.main.temp,
-    feelsLike: data.main.feels_like,
-    description: data.weather[0].description,
-    icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+    temp: current.temperature_2m ?? 0,
+    feelsLike: current.apparent_temperature ?? current.temperature_2m ?? 0,
+    description: mapped.description,
+    icon: mapped.icon,
   };
 }

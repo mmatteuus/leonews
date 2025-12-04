@@ -6,8 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { summarizeTextWithAI } from "@/services/aiSummaryService";
-import { extractTopicsFromText } from "@/services/aiTopicsService";
+import { summarizeText, extractTopics } from "@/services/summaryService";
 import { NewsArticle } from "@/hooks/useNews";
 
 const NewsDetail = () => {
@@ -16,10 +15,10 @@ const NewsDetail = () => {
   const [article, setArticle] = useState<NewsArticle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [aiSummary, setAiSummary] = useState<string | null>(null);
-  const [aiSummaryLoading, setAiSummaryLoading] = useState(false);
-  const [aiSummaryError, setAiSummaryError] = useState<string | null>(null);
-  const [aiTags, setAiTags] = useState<string[]>([]);
+  const [smartSummary, setSmartSummary] = useState<string | null>(null);
+  const [smartSummaryLoading, setSmartSummaryLoading] = useState(false);
+  const [smartSummaryError, setSmartSummaryError] = useState<string | null>(null);
+  const [smartTags, setSmartTags] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -125,16 +124,17 @@ O investimento foi viabilizado através de uma parceria entre o governo estadual
 
   useEffect(() => {
     const runSummary = async () => {
-      if (!article || !(article as any).content) return;
+      if (!article) return;
+      const baseText = (article as any).content || article.summary || article.title;
       try {
-        setAiSummaryLoading(true);
-        setAiSummaryError(null);
-        const summary = await summarizeTextWithAI((article as any).content);
-        setAiSummary(summary || null);
+        setSmartSummaryLoading(true);
+        setSmartSummaryError(null);
+        const summary = summarizeText(baseText);
+        setSmartSummary(summary || null);
       } catch (err) {
-        setAiSummaryError("Não foi possível gerar o resumo automático.");
+        setSmartSummaryError("Não foi possível gerar o resumo.");
       } finally {
-        setAiSummaryLoading(false);
+        setSmartSummaryLoading(false);
       }
     };
 
@@ -144,10 +144,10 @@ O investimento foi viabilizado através de uma parceria entre o governo estadual
 
       const baseText = `${article.title} ${(article as any).content || article.summary}`;
       try {
-        const topics = await extractTopicsFromText(baseText);
-        setAiTags(topics);
+        const topics = extractTopics(baseText);
+        setSmartTags(topics);
       } catch {
-        // Soft-fail for AI topics
+        // Soft-fail for topic extraction
       }
     };
 
@@ -223,7 +223,7 @@ O investimento foi viabilizado através de uma parceria entre o governo estadual
   const tagsToShow =
     (article as any).tags?.length && (article as any).tags?.length > 0
       ? (article as any).tags
-      : aiTags;
+      : smartTags;
 
   return (
     <div className="min-h-screen bg-background">
@@ -276,25 +276,25 @@ O investimento foi viabilizado através de uma parceria entre o governo estadual
 
           <Separator className="mb-8" />
 
-          {/* AI Summary Card */}
-          {(aiSummaryLoading || aiSummary || aiSummaryError) && (
+          {/* Resumo automático */}
+          {(smartSummaryLoading || smartSummary || smartSummaryError) && (
             <div className="mb-6 p-4 rounded-lg border border-primary/30 bg-primary/5">
               <h3 className="text-sm font-semibold mb-2 text-primary">
-                Resumo gerado por IA
+                Resumo automático
               </h3>
 
-              {aiSummaryLoading && (
+              {smartSummaryLoading && (
                 <p className="text-sm text-muted-foreground">
                   Gerando um resumo inteligente da notícia...
                 </p>
               )}
 
-              {aiSummaryError && (
-                <p className="text-sm text-destructive">{aiSummaryError}</p>
+              {smartSummaryError && (
+                <p className="text-sm text-destructive">{smartSummaryError}</p>
               )}
 
-              {aiSummary && !aiSummaryLoading && (
-                <p className="text-sm leading-relaxed">{aiSummary}</p>
+              {smartSummary && !smartSummaryLoading && (
+                <p className="text-sm leading-relaxed">{smartSummary}</p>
               )}
             </div>
           )}
